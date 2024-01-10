@@ -253,6 +253,7 @@ const updateParams = res => {
     try {
 /***************************** */
     if ('SET YOUR COOKIE HERE' === Config.Cookie || Config.Cookie?.length < 1 || (Config.CookieArray?.length > 0 && invalidtime > totaltime)) { //if ('SET YOUR COOKIE HERE' === Config.Cookie || Config.Cookie?.length < 1) {
+        changing = false; //
         return console.log(`[33mNo cookie available, apiKey-Only mode enabled.[0m\n`); //throw Error('Set your cookie inside config.js');
     }
     updateCookies(Config.Cookie.replace(/^(sessionKey=)?/, 'sessionKey=')); //updateCookies(Config.Cookie);
@@ -442,8 +443,8 @@ const updateParams = res => {
                         stop_sequences = body.stop;
                         max_tokens_to_sample = body.max_tokens;
                         model = body.model;
-                    } else if (req.headers.authorization.includes('sk-ant-api') || Config.ProxyPassword != '' && req.headers.authorization != 'Bearer ' + Config.ProxyPassword) {
-                        throw Error(req.headers.authorization.includes('sk-ant-api') ? 'apiKey Wrong' : 'ProxyPassword Wrong');
+                    } else if (req.headers.authorization?.includes('sk-ant-api') || Config.ProxyPassword != '' && req.headers.authorization != 'Bearer ' + Config.ProxyPassword) {
+                        throw Error(req.headers.authorization?.includes('sk-ant-api') ? 'apiKey Wrong' : 'ProxyPassword Wrong');
                     } else if (changing || Config.CookieArray?.length > 0 && invalidtime >= Config.CookieArray?.length || reqModel && reqModel != cookieModel && !Config.Settings.PassParams) {
                         changing ? invalidtime = 0 : changeflag = -1;
                         throw Error(reqModel && reqModel != cookieModel && !Config.Settings.PassParams ? 'Polling requset model...' : 'Changing Cookie...');
